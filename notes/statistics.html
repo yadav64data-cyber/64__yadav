@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statistics for Data Analytics — Complete Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap');
+
+  :root {
+    --bg: #0b0f1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1f2d45;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card-glow: rgba(59,130,246,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    padding: 60px 24px 48px;
+    text-align: center;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.15) 0%, transparent 70%);
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 520px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+  }
+
+  /* NAV PILLS */
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 24px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .pill {
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .pill:hover, .pill.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(59,130,246,0.08);
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0 20px;
+  }
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  .section-divider {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    border-color: rgba(59,130,246,0.3);
+    box-shadow: 0 0 32px var(--card-glow);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 16px 16px 0 0;
+  }
+  .card.blue::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .card.gold::before { background: linear-gradient(90deg, var(--gold), #fcd34d); }
+  .card.green::before { background: linear-gradient(90deg, var(--green), #34d399); }
+  .card.purple::before { background: linear-gradient(90deg, var(--purple), #a78bfa); }
+  .card.pink::before { background: linear-gradient(90deg, var(--pink), #f472b6); }
+  .card.red::before { background: linear-gradient(90deg, var(--red), #f87171); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+  .card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+  .badge-blue { background: rgba(59,130,246,0.15); color: var(--accent2); border: 1px solid rgba(59,130,246,0.25); }
+  .badge-gold { background: rgba(245,158,11,0.15); color: var(--gold); border: 1px solid rgba(245,158,11,0.25); }
+  .badge-green { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+  .badge-purple { background: rgba(139,92,246,0.15); color: var(--purple); border: 1px solid rgba(139,92,246,0.25); }
+
+  /* FORMULA BOX */
+  .formula {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #93c5fd;
+    line-height: 1.8;
+  }
+  .formula .label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* INFO ROWS */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-item {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .info-item .info-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .info-item .info-value {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  /* WHEN TO USE */
+  .when-use {
+    border-left: 2px solid var(--accent2);
+    padding-left: 14px;
+    margin-top: 14px;
+    font-size: 13.5px;
+    color: #94a3b8;
+    line-height: 1.7;
+  }
+  .when-use strong { color: var(--accent2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 4px; }
+
+  /* TIP BOX */
+  .tip-box {
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #fcd34d;
+    line-height: 1.6;
+  }
+  .tip-box::before { content: '💡 '; }
+
+  /* TRICK BOX */
+  .trick-box {
+    background: rgba(139,92,246,0.06);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #c4b5fd;
+    line-height: 1.6;
+  }
+  .trick-box::before { content: '🔥 '; }
+
+  /* TWO COL LAYOUT */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 14px;
+  }
+  .compare-table th {
+    background: var(--surface2);
+    color: var(--accent2);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .hl { color: #e2e8f0; font-weight: 500; }
+
+  /* QUICK CHEATSHEET */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .cheat-item {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .cheat-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 4px;
+  }
+  .cheat-when {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .cheat-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #93c5fd;
+  }
+
+  /* MASTER DECISION TREE */
+  .decision-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .dtree { font-size: 13px; line-height: 2; color: #94a3b8; }
+  .dtree .q { color: var(--gold); font-weight: 600; }
+  .dtree .a { color: var(--green); margin-left: 20px; }
+  .dtree .na { color: var(--red); margin-left: 20px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    letter-spacing: 0.03em;
+  }
+  footer span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Complete Study Notes · Data Analytics</p>
+  <h1>Statistics for <em>Data Analytics</em></h1>
+  <p class="subtitle">Kaunsa method kab use karo, kaise calculate karo, aur kya tips & tricks hain — sab ek jagah.</p>
+</header>
+
+<div class="nav-pills">
+  <a class="pill active" href="#descriptive">Descriptive Stats</a>
+  <a class="pill" href="#probability">Probability</a>
+  <a class="pill" href="#distributions">Distributions</a>
+  <a class="pill" href="#inference">Inferential Stats</a>
+  <a class="pill" href="#regression">Regression</a>
+  <a class="pill" href="#hypothesis">Hypothesis Testing</a>
+  <a class="pill" href="#correlation">Correlation</a>
+  <a class="pill" href="#cheatsheet">Quick Cheatsheet</a>
+</div>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 1: DESCRIPTIVE STATISTICS
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="descriptive">
+    <div class="section-icon" style="background:rgba(59,130,246,0.12);">📊</div>
+    <h2 class="section-title">Descriptive Statistics</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- CENTRAL TENDENCY -->
+  <div class="card blue">
+    <div class="card-header">
+      <div class="card-title">Central Tendency — Mean, Median, Mode</div>
+      <span class="badge badge-blue">Step 1 Always</span>
+    </div>
+
+    <table class="compare-table">
+      <tr>
+        <th>Measure</th>
+        <th>Formula</th>
+        <th>Kab Use Karo</th>
+        <th>Avoid When</th>
+      </tr>
+      <tr>
+        <td class="hl">Mean (Average)</td>
+        <td><code>Σx / n</code></td>
+        <td>Normal data, outliers nahi hain</td>
+        <td>Outliers ho toh misleading hoga</td>
+      </tr>
+      <tr>
+        <td class="hl">Median</td>
+        <td>Middle value (sorted)</td>
+        <td>Skewed data, outliers hain (salary, income)</td>
+        <td>Categorical data</td>
+      </tr>
+      <tr>
+        <td class="hl">Mode</td>
+        <td>Sabse zyada repeat value</td>
+        <td>Categorical data (product category, city name)</td>
+        <td>Numerical continuous data</td>
+      </tr>
+    </table>
+
+    <div class="tip-box">Income data mein hamesha <strong>Median</strong> use karo — ek billionaire bana deta hai Mean ko useless! (Bill Gates effect)</div>
+    <div class="trick-box">Mean &gt; Median = Right skewed (outliers right side). Mean &lt; Median = Left skewed. Symmetric data mein Mean ≈ Median ≈ Mode</div>
+  </div>
+
+  <!-- SPREAD -->
+  <div class="card gold">
+    <div class="card-header">
+      <div class="card-title">Spread / Variability — Variance, SD, IQR</div>
+      <span class="badge badge-gold">Spread Measure</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="formula">
+          <div class="label">Variance (Population)</div>
+          σ² = Σ(x - μ)² / N
+        </div>
+        <div class="formula">
+          <div class="label">Variance (Sample)</div>
+          s² = Σ(x - x̄)² / (n-1)
+        </div>
+      </div>
+      <div>
+        <div class="formula">
+          <div class="label">Standard Deviation</div>
+          σ = √Variance
+        </div>
+        <div class="formula">
+          <div class="label">IQR (Interquartile Range)</div>
+          IQR = Q3 - Q1
+        </div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Standard Deviation Use Karo</div>
+        <div class="info-value">Normal data mein spread batane ke liye. "Avg se kitna door?" Low SD = data tightly packed, High SD = data spread out.</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">IQR Use Karo</div>
+        <div class="info-value">Outlier detect karne ke liye. Outlier = value &lt; Q1 - 1.5×IQR  ya  &gt; Q3 + 1.5×IQR (Box Plot method)</div>
+      </div>
+    </div>
+
+    <div class="tip-box">Sample variance mein n-1 (not n) kyun? — Bessel's Correction. Sample se population estimate karte ho toh divide by (n-1) se bias kam hota hai.</div>
+    <div class="trick-box">CV (Coefficient of Variation) = (SD / Mean) × 100 — Different units waale datasets compare karne ke liye. Stock A ka CV vs Stock B ka CV.</div>
+  </div>
+
+  <!-- SHAPE -->
+  <div class="card purple">
+    <div class="card-header">
+      <div class="card-title">Shape of Distribution — Skewness & Kurtosis</div>
+      <span class="badge badge-purple">Distribution Shape</span>
+    </div>
+
+    <table class="compare-table">
+      <tr><th>Metric</th><th>Formula (approx)</th><th>Value Interpret karo</th></tr>
+      <tr>
+        <td class="hl">Skewness</td>
+        <td><code>Σ(x-x̄)³ / (n × σ³)</code></td>
+        <td>0 = Symmetric | +ve = Right skewed | -ve = Left skewed</td>
+      </tr>
+      <tr>
+        <td class="hl">Kurtosis</td>
+        <td><code>Σ(x-x̄)⁴ / (n × σ⁴) - 3</code></td>
+        <td>0 = Normal | +ve = Heavy tails (Leptokurtic) | -ve = Thin tails (Platykurtic)</td>
+      </tr>
+    </table>
+
+    <div class="trick-box">Financial data (stock returns) mein Kurtosis zyada hota hai → Fat tails → Crash ka risk zyada. Normal assume karna dangerous hai!</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 2: PROBABILITY
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="probability">
+    <div class="section-icon" style="background:rgba(245,158,11,0.12);">🎲</div>
+    <h2 class="section-title">Probability</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card gold">
+      <div class="card-header">
+        <div class="card-title">Basic Rules</div>
+      </div>
+      <div class="formula">
+        <div class="label">Addition Rule (OR)</div>
+        P(A∪B) = P(A) + P(B) - P(A∩B)
+      </div>
+      <div class="formula">
+        <div class="label">Multiplication Rule (AND)</div>
+        P(A∩B) = P(A) × P(B|A)
+      </div>
+      <div class="formula">
+        <div class="label">Complement</div>
+        P(A') = 1 - P(A)
+      </div>
+      <div class="tip-box" style="margin-top:12px;">Independent events mein P(A∩B) = P(A) × P(B)</div>
+    </div>
+
+    <div class="card gold">
+      <div class="card-header">
+        <div class="card-title">Bayes' Theorem</div>
+        <span class="badge badge-gold">Key Formula</span>
+      </div>
+      <div class="formula">
+        P(A|B) = [P(B|A) × P(A)] / P(B)
+      </div>
+      <div class="when-use">
+        <strong>Kab use karo</strong>
+        Spam filter, Medical diagnosis, A/B testing, Recommendation systems. "Given ki ye email spam hai, to sender fraud hai ki probability?"
+      </div>
+      <div class="trick-box" style="margin-top:12px;">Prior × Likelihood = Posterior. New evidence aane pe belief update karo — Bayesian Thinking!</div>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="card-header">
+      <div class="card-title">Conditional Probability</div>
+    </div>
+    <div class="formula">
+      P(A|B) = P(A∩B) / P(B)
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Example</div>
+        <div class="info-value">Jo customer email open karta hai (B), uske purchase karne ki probability (A|B)?</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Data Analytics Use</div>
+        <div class="info-value">Funnel analysis, churn prediction, feature importance in ML models</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 3: DISTRIBUTIONS
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="distributions">
+    <div class="section-icon" style="background:rgba(16,185,129,0.12);">📈</div>
+    <h2 class="section-title">Probability Distributions</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="card green">
+    <div class="card-header">
+      <div class="card-title">Normal Distribution (Gaussian)</div>
+      <span class="badge badge-green">Most Important</span>
+    </div>
+    <div class="formula">
+      <div class="label">PDF Formula</div>
+      f(x) = (1 / σ√2π) × e^[-(x-μ)² / 2σ²]
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">68-95-99.7 Rule (Empirical Rule)</div>
+        <div class="info-value">μ ± 1σ → 68% data<br>μ ± 2σ → 95% data<br>μ ± 3σ → 99.7% data</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Z-Score Formula</div>
+        <div class="info-value" style="font-family:'JetBrains Mono',monospace; color: #93c5fd; font-size:13px;">Z = (x - μ) / σ<br><br><span style="color:#64748b; font-family:'Space Grotesk',sans-serif; font-size:12px;">"Value kitna SDs away hai mean se?"</span></div>
+      </div>
+    </div>
+    <div class="tip-box">Z-score &gt; 3 ya &lt; -3 = Outlier confirm. Z-table se area/probability nikalo.</div>
+    <div class="trick-box">Heights, test scores, measurement errors → Normal Distribution. Real life mein CLT ki wajah se bahut sari cheezein normal ho jaati hain!</div>
+  </div>
+
+  <div class="two-col">
+    <div class="card green">
+      <div class="card-title" style="margin-bottom:12px;">Binomial Distribution</div>
+      <div class="formula">
+        P(X=k) = C(n,k) × pᵏ × (1-p)ⁿ⁻ᵏ
+      </div>
+      <div class="when-use">
+        <strong>Kab use karo</strong>
+        Fixed n trials, har trial success/fail, same probability. Email CTR, A/B test conversions, Quality control (defective/non-defective)
+      </div>
+      <div class="formula" style="margin-top:10px;">
+        Mean = np | Variance = np(1-p)
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title" style="margin-bottom:12px;">Poisson Distribution</div>
+      <div class="formula">
+        P(X=k) = (λᵏ × e⁻λ) / k!
+      </div>
+      <div class="when-use">
+        <strong>Kab use karo</strong>
+        Fixed time/space mein events count. Website visits per hour, customer arrivals per day, errors per 1000 lines of code
+      </div>
+      <div class="formula" style="margin-top:10px;">
+        Mean = λ | Variance = λ
+      </div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <div class="card-header">
+      <div class="card-title">Central Limit Theorem (CLT) — Sabse Powerful Concept</div>
+      <span class="badge badge-green">🔑 Key Theorem</span>
+    </div>
+    <div class="when-use">
+      <strong>Kya bolti hai CLT</strong>
+      Agar koi bhi distribution ho (skewed bhi), uske samples ke means ki distribution NORMAL hogi — agar n ≥ 30 ho.
+    </div>
+    <div class="formula">
+      Sample Mean Distribution: x̄ ~ N(μ, σ²/n) | Standard Error = σ/√n
+    </div>
+    <div class="tip-box">CLT ki wajah se hi Z-test, t-test, confidence intervals kaam karte hain. Yahi stats ka foundation hai!</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 4: INFERENTIAL STATISTICS
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="inference">
+    <div class="section-icon" style="background:rgba(139,92,246,0.12);">🔬</div>
+    <h2 class="section-title">Inferential Statistics</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="card purple">
+    <div class="card-header">
+      <div class="card-title">Confidence Intervals</div>
+      <span class="badge badge-purple">Estimation</span>
+    </div>
+    <div class="two-col">
+      <div class="formula">
+        <div class="label">Z-Interval (n≥30 or σ known)</div>
+        CI = x̄ ± Z* × (σ/√n)
+        <br><br>
+        90% → Z* = 1.645<br>
+        95% → Z* = 1.96<br>
+        99% → Z* = 2.576
+      </div>
+      <div class="formula">
+        <div class="label">t-Interval (n&lt;30 or σ unknown)</div>
+        CI = x̄ ± t* × (s/√n)
+        <br><br>
+        t* value = t-table se<br>
+        df = n - 1
+      </div>
+    </div>
+    <div class="tip-box">95% CI ka matlab: "Agar 100 baar sample lo, to 95 baar interval true mean contain karega." Not: "95% chance ki mean is range mein hai."</div>
+    <div class="trick-box">Wider CI = Less confident exact value. Narrow CI = More precise (needs larger n). CI narrow karna ho → n badhao!</div>
+  </div>
+
+  <div class="card purple">
+    <div class="card-header">
+      <div class="card-title">Sample Size Calculation</div>
+    </div>
+    <div class="formula">
+      <div class="label">For Mean</div>
+      n = (Z* × σ / E)²
+      &nbsp;&nbsp;where E = margin of error
+    </div>
+    <div class="formula">
+      <div class="label">For Proportion</div>
+      n = (Z*)² × p(1-p) / E²
+      &nbsp;&nbsp;(p unknown ho to p=0.5 use karo → max sample size)
+    </div>
+    <div class="tip-box">A/B test se pehle sample size calculate karo — isko "Power Analysis" kehte hain. Varna false result aa sakta hai.</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 5: HYPOTHESIS TESTING
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="hypothesis">
+    <div class="section-icon" style="background:rgba(239,68,68,0.12);">⚗️</div>
+    <h2 class="section-title">Hypothesis Testing</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="card red">
+    <div class="card-header">
+      <div class="card-title">Framework — Step by Step</div>
+      <span class="badge" style="background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.25);">Process</span>
+    </div>
+    <div class="dtree">
+      <div class="q">Step 1: H₀ (Null) aur H₁ (Alternative) define karo</div>
+      <div class="a">→ H₀: "No effect" (status quo). H₁: "Effect hai" (jo tum prove karna chahte ho)</div>
+      <div class="q">Step 2: Significance Level (α) decide karo</div>
+      <div class="a">→ Usually α = 0.05 (5%). Medical fields mein 0.01</div>
+      <div class="q">Step 3: Sahi test choose karo</div>
+      <div class="a">→ (Neeche table dekho)</div>
+      <div class="q">Step 4: Test statistic calculate karo & p-value nikalo</div>
+      <div class="a">→ p-value = "Agar H₀ true ho to ye data milne ki probability"</div>
+      <div class="q">Step 5: Decision</div>
+      <div class="a">→ p &lt; α : Reject H₀ (significant result!)</div>
+      <div class="na">→ p ≥ α : Fail to Reject H₀ (not significant)</div>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="card-header">
+      <div class="card-title">Kaunsa Test Kab Use Karo</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Situation</th><th>Test</th><th>Formula</th></tr>
+      <tr>
+        <td>1 sample mean vs known value (n≥30)</td>
+        <td class="hl">Z-Test</td>
+        <td><code>Z = (x̄ - μ₀) / (σ/√n)</code></td>
+      </tr>
+      <tr>
+        <td>1 sample mean vs known value (n&lt;30)</td>
+        <td class="hl">One-Sample t-Test</td>
+        <td><code>t = (x̄ - μ₀) / (s/√n)</code></td>
+      </tr>
+      <tr>
+        <td>2 independent group means compare</td>
+        <td class="hl">Two-Sample t-Test</td>
+        <td><code>t = (x̄₁ - x̄₂) / SE</code></td>
+      </tr>
+      <tr>
+        <td>Before/After same group</td>
+        <td class="hl">Paired t-Test</td>
+        <td><code>t = d̄ / (Sd/√n)</code></td>
+      </tr>
+      <tr>
+        <td>3+ groups means compare</td>
+        <td class="hl">ANOVA (F-Test)</td>
+        <td><code>F = MSB / MSW</code></td>
+      </tr>
+      <tr>
+        <td>Proportions compare</td>
+        <td class="hl">Chi-Square / Z-prop</td>
+        <td><code>χ² = Σ(O-E)²/E</code></td>
+      </tr>
+      <tr>
+        <td>Non-normal data, 2 groups</td>
+        <td class="hl">Mann-Whitney U</td>
+        <td>Rank-based test</td>
+      </tr>
+    </table>
+    <div class="tip-box">Type I Error (α) = False Positive — "H₀ true thi par reject kar diya" | Type II Error (β) = False Negative — "H₁ true thi par reject nahi kiya". Power = 1 - β</div>
+    <div class="trick-box">p-value &lt; 0.05 ka matlab practical significance nahi hai! Large n ke saath trivial difference bhi significant ho jaata hai. Effect size bhi dekho (Cohen's d).</div>
+  </div>
+
+  <div class="card red">
+    <div class="card-header">
+      <div class="card-title">Chi-Square Test — Categorical Data</div>
+    </div>
+    <div class="formula">
+      χ² = Σ [(Observed - Expected)² / Expected]
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Goodness of Fit Test</div>
+        <div class="info-value">Observed frequencies expected distribution se match karti hain? (Ek variable)</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Test of Independence</div>
+        <div class="info-value">Kya do categorical variables independent hain? (Contingency table). Gender vs Product Preference</div>
+      </div>
+    </div>
+    <div class="formula" style="margin-top:12px;">
+      Expected = (Row Total × Column Total) / Grand Total
+    </div>
+    <div class="tip-box">Chi-square ke liye: Expected frequency &gt; 5 honi chahiye har cell mein. Chhoti frequency → Fisher's Exact Test use karo.</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 6: CORRELATION
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="correlation">
+    <div class="section-icon" style="background:rgba(6,182,212,0.12);">🔗</div>
+    <h2 class="section-title">Correlation & Association</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card blue">
+      <div class="card-title" style="margin-bottom:12px;">Pearson Correlation (r)</div>
+      <div class="formula">
+        r = Σ[(x-x̄)(y-ȳ)] / √[Σ(x-x̄)² × Σ(y-ȳ)²]
+      </div>
+      <div class="when-use">
+        <strong>Kab use karo</strong>
+        Linear relationship, Normal data, Continuous variables. -1 to +1 range.
+      </div>
+      <div class="info-item" style="margin-top:12px;">
+        <div class="info-label">Interpretation</div>
+        <div class="info-value">|r| &gt; 0.7 → Strong | 0.4-0.7 → Moderate | &lt;0.4 → Weak</div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title" style="margin-bottom:12px;">Spearman Rank (ρ)</div>
+      <div class="formula">
+        ρ = 1 - (6 × Σd²) / (n × (n²-1))
+        <br>d = rank difference
+      </div>
+      <div class="when-use">
+        <strong>Kab use karo</strong>
+        Non-linear relationship, Ordinal data, Outliers hain. Non-parametric version of Pearson.
+      </div>
+      <div class="tip-box" style="margin-top:12px;">Customer satisfaction rank vs sales rank → Spearman</div>
+    </div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-header">
+      <div class="card-title">⚠️ Correlation vs Causation</div>
+      <span class="badge badge-blue">Critical Concept</span>
+    </div>
+    <div class="trick-box">
+      "Ice cream sales aur drowning incidents ka r = +0.85" — Dono summer mein badhte hain (confounding variable: season). High correlation ≠ Causation. Causation prove karne ke liye → Controlled Experiment / RCT chahiye.
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Spurious Correlation</div>
+        <div class="info-value">Nicolas Cage movies aur pool drowning deaths ka perfect correlation hai — coincidence!</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Confounding Variable</div>
+        <div class="info-value">Hidden third variable jo dono ko affect karta hai. Always check before claiming causation.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 7: REGRESSION
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="regression">
+    <div class="section-icon" style="background:rgba(236,72,153,0.12);">📉</div>
+    <h2 class="section-title">Regression Analysis</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="card pink">
+    <div class="card-header">
+      <div class="card-title">Simple Linear Regression</div>
+      <span class="badge" style="background:rgba(236,72,153,0.15);color:#f472b6;border:1px solid rgba(236,72,153,0.25);">Prediction</span>
+    </div>
+    <div class="formula">
+      <div class="label">Model</div>
+      ŷ = β₀ + β₁x + ε
+    </div>
+    <div class="two-col" style="margin-top:12px;">
+      <div class="formula">
+        <div class="label">Slope (β₁)</div>
+        β₁ = Σ(x-x̄)(y-ȳ) / Σ(x-x̄)²
+        <br>= r × (Sy/Sx)
+      </div>
+      <div class="formula">
+        <div class="label">Intercept (β₀)</div>
+        β₀ = ȳ - β₁ × x̄
+      </div>
+    </div>
+    <div class="info-grid" style="margin-top:14px;">
+      <div class="info-item">
+        <div class="info-label">R² (R-Squared)</div>
+        <div class="info-value">Model kitna variation explain karta hai. R²=0.85 → 85% variation explained. Higher = Better fit.</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Residuals</div>
+        <div class="info-value">e = y - ŷ (actual - predicted). Residuals random hone chahiye. Pattern = problem hai!</div>
+      </div>
+    </div>
+    <div class="tip-box">Adjusted R² use karo multiple regression mein — extra variables add karne se plain R² artificially badhta hai.</div>
+  </div>
+
+  <div class="card pink">
+    <div class="card-header">
+      <div class="card-title">Regression Assumptions (LINE)</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Assumption</th><th>Kya Check Karo</th><th>Violation Fix</th></tr>
+      <tr><td class="hl">Linearity</td><td>Scatter plot</td><td>Transform (log, sqrt)</td></tr>
+      <tr><td class="hl">Independence</td><td>Residual plot</td><td>Time series — add lag variables</td></tr>
+      <tr><td class="hl">Normality of Errors</td><td>Q-Q Plot, Shapiro-Wilk</td><td>Transform Y variable</td></tr>
+      <tr><td class="hl">Equal Variance (Homoscedasticity)</td><td>Residuals vs Fitted plot</td><td>Weighted regression</td></tr>
+      <tr><td class="hl">No Multicollinearity</td><td>VIF &lt; 5 (ideally &lt;10)</td><td>Remove correlated predictors</td></tr>
+    </table>
+    <div class="trick-box">Overfitting detect karna: Training accuracy ≫ Test accuracy → Overfit. Solution: Cross-validation, Regularization (Ridge/Lasso)</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 8: QUICK CHEATSHEET
+  ══════════════════════════════════════════════════════ -->
+  <div class="section-label" id="cheatsheet">
+    <div class="section-icon" style="background:rgba(16,185,129,0.12);">⚡</div>
+    <h2 class="section-title">Master Decision Framework</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-header">
+      <div class="card-title">🗺️ Situation → Method Decision Tree</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Objective</th><th>Data Type</th><th>Method</th></tr>
+      <tr><td>Summarize data</td><td>Any</td><td class="hl">Descriptive Stats (Mean/Median/SD)</td></tr>
+      <tr><td>Distribution check karo</td><td>Continuous</td><td class="hl">Histogram, Q-Q Plot, Shapiro-Wilk</td></tr>
+      <tr><td>Outliers detect karo</td><td>Continuous</td><td class="hl">IQR Method, Z-score (&gt;3), Box Plot</td></tr>
+      <tr><td>2 variables ka relationship</td><td>Continuous</td><td class="hl">Pearson/Spearman Correlation</td></tr>
+      <tr><td>Predict value (Y from X)</td><td>Continuous</td><td class="hl">Linear/Multiple Regression</td></tr>
+      <tr><td>Predict category</td><td>Categorical Y</td><td class="hl">Logistic Regression</td></tr>
+      <tr><td>1 group mean test karo</td><td>Continuous</td><td class="hl">1-sample t-test / Z-test</td></tr>
+      <tr><td>2 group means compare karo</td><td>Continuous</td><td class="hl">2-sample t-test / Mann-Whitney</td></tr>
+      <tr><td>3+ group means compare karo</td><td>Continuous</td><td class="hl">ANOVA → Post-hoc (Tukey)</td></tr>
+      <tr><td>Category frequencies compare</td><td>Categorical</td><td class="hl">Chi-Square Test</td></tr>
+      <tr><td>Before/After same group</td><td>Continuous</td><td class="hl">Paired t-test / Wilcoxon</td></tr>
+      <tr><td>A/B Test result</td><td>Proportion</td><td class="hl">Z-test for proportions</td></tr>
+    </table>
+  </div>
+
+  <div class="card green">
+    <div class="card-header">
+      <div class="card-title">⚡ Top 10 Pro Tips & Tricks</div>
+    </div>
+    <div class="cheat-grid">
+      <div class="cheat-item">
+        <div class="cheat-name">🔍 EDA Pehle Karo</div>
+        <div class="cheat-when">Koi bhi analysis se pehle Exploratory Data Analysis. Visualize first, then test.</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">📐 Normality Check</div>
+        <div class="cheat-when">Parametric test (t-test, ANOVA) se pehle normality check karo — Shapiro-Wilk ya Q-Q Plot.</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">🎯 Effect Size</div>
+        <div class="cheat-when">p-value ke saath Cohen's d (mean diff) ya Cramér's V (chi-sq) bhi report karo.</div>
+        <div class="cheat-formula">Cohen's d = (μ₁-μ₂) / σ_pooled</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">🔄 Multiple Testing</div>
+        <div class="cheat-when">Multiple tests karo to false positive badhta hai. Bonferroni Correction use karo.</div>
+        <div class="cheat-formula">α_adjusted = α / k</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">📊 Log Transform</div>
+        <div class="cheat-when">Right-skewed data (salary, revenue, price) → log(x) transform → Normal ho jaata hai.</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">🚨 Outlier Policy</div>
+        <div class="cheat-when">Remove karne se pehle reason dhundho. Business logic se decide karo — blindly remove mat karo.</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">✅ Cross-Validation</div>
+        <div class="cheat-when">Model evaluate karo k-Fold CV se. Overfitting detect karne ka best way.</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">🎲 Power Analysis</div>
+        <div class="cheat-when">A/B test shuru karne se pehle minimum sample size calculate karo (80% power standard hai).</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">📉 Residual Plot</div>
+        <div class="cheat-when">Regression ke baad residuals zaroor plot karo — pattern dikha to model wrong hai!</div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-name">🧠 CLT Remember</div>
+        <div class="cheat-when">n≥30 hote hi sample mean Normal ho jaata hai — yahi sab inference ka base hai!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <div class="card-header">
+      <div class="card-title">📋 Golden Formulas Summary</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Name</th><th>Formula</th></tr>
+      <tr><td class="hl">Z-Score</td><td><code>(x - μ) / σ</code></td></tr>
+      <tr><td class="hl">Standard Error</td><td><code>σ / √n</code></td></tr>
+      <tr><td class="hl">95% Confidence Interval</td><td><code>x̄ ± 1.96 × (s/√n)</code></td></tr>
+      <tr><td class="hl">t-Statistic</td><td><code>(x̄ - μ₀) / (s/√n)</code></td></tr>
+      <tr><td class="hl">Pearson r</td><td><code>Cov(X,Y) / (σₓ × σᵧ)</code></td></tr>
+      <tr><td class="hl">Linear Regression Slope</td><td><code>r × (Sy/Sx)</code></td></tr>
+      <tr><td class="hl">Chi-Square</td><td><code>Σ(O-E)²/E</code></td></tr>
+      <tr><td class="hl">Bayes Theorem</td><td><code>P(A|B) = P(B|A)×P(A) / P(B)</code></td></tr>
+      <tr><td class="hl">CV (Coefficient of Variation)</td><td><code>(SD/Mean) × 100</code></td></tr>
+      <tr><td class="hl">Bonferroni Correction</td><td><code>α_new = 0.05 / k tests</code></td></tr>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  Made for Data Analytics Students · Statistics Complete Notes · <span>Formulas + When to Use + Tips & Tricks</span>
+</footer>
+
+</body>
+</html>
